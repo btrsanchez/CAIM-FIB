@@ -36,7 +36,7 @@ OutAir = []  # list of airport outs
 
 def readAirports(fd):
     print("Reading Airport file from {0}".format(fd))
-    airportsTxt = open(fd, "r")
+    airportsTxt = open(fd, "r", encoding="utf8");
     cont = 0
     for line in airportsTxt.readlines():
         a = Airport()
@@ -44,8 +44,8 @@ def readAirports(fd):
             temp = line.split(',')
             if len(temp[4]) != 5 :
                 raise Exception('not an IATA code')
-            a.name = temp[1][1:-1] + ", " + temp[3][1:-1]
-            a.code = temp[4][1:-1]
+            a.name=temp[1][1:-1] + ", " + temp[3][1:-1]
+            a.code=temp[4][1:-1]
         except Exception as inst:
             pass
         else:
@@ -78,7 +78,7 @@ def readRoutes(fd):
         	
 
 def computePageRanks():
-    n = airportList.length()
+    n = len(airportList)
     P = [1/n] * n
     L = 0.85
     while ():
@@ -94,7 +94,6 @@ def computePageRanks():
     #write your code
 
 def main(argv=None):
-    print("Hola")
     readAirports("airports.txt")
     readRoutes("routes.txt")
     time1 = time.time()
@@ -106,5 +105,4 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
-    print("Hola")
     sys.exit(main())
