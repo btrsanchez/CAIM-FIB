@@ -44,8 +44,8 @@ def readAirports(fd):
             temp = line.split(',')
             if len(temp[4]) != 5 :
                 raise Exception('not an IATA code')
-            a.name=temp[1][1:-1] + ", " + temp[3][1:-1]
-            a.code=temp[4][1:-1]
+            a.name = temp[1][1:-1] + ", " + temp[3][1:-1]
+            a.code = temp[4][1:-1]
         except Exception as inst:
             pass
         else:
@@ -63,19 +63,19 @@ def readRoutes(fd):
     for line in routesTxt.readlines():
         try:
             temp = line.split(',')
-            if len(temp[2]) != 5 or len(temp[4]) != 5 :
+            if len(temp[2]) != 3 or len(temp[4]) != 3:
                 raise Exception('not an IATA code')
-            IATAori = temp[2][1:-1]
-            IATAdes = temp[4][1:-1]
+            IATAori = temp[2]
+            IATAdes = temp[4]
+            airportHash[IATAori].outweight += 1
         except Exception as inst:
             pass
         else:
             cont += 1
-            edgeHash[(IATAori, IATAdes)] += 1
-            OutAir[IATAori] += 1
+            edgeHash[(IATAori, IATAdes)] = 1
     routesTxt.close()
     print("There were {0} Routes with IATA code".format(cont))
-        	
+
 
 def computePageRanks():
     n = len(airportList)
