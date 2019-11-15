@@ -3,6 +3,7 @@
 from collections import namedtuple
 import time
 import sys
+import numpy as np
 
 
 class Edge:
@@ -22,6 +23,7 @@ class Airport:
         self.routes = []
         self.routeHash = dict()
         self.outweight = 0   # write appropriate value
+        self.pageIndex = 0
 
     def __repr__(self):
         return "{0}\t{2}\t{1}".format(self.code, self.name, self.pageIndex)
@@ -36,7 +38,7 @@ OutAir = []  # list of airport outs
 
 def readAirports(fd):
     print("Reading Airport file from {0}".format(fd))
-    airportsTxt = open(fd, "r", encoding="utf8");
+    airportsTxt = open(fd, "r", encoding="utf8")
     cont = 0
     for line in airportsTxt.readlines():
         a = Airport()
@@ -46,11 +48,12 @@ def readAirports(fd):
                 raise Exception('not an IATA code')
             a.name = temp[1][1:-1] + ", " + temp[3][1:-1]
             a.code = temp[4][1:-1]
+            a.pageIndex = cont
         except Exception as inst:
             pass
         else:
             cont += 1
-            airportList.append(a)
+            airportList.append(a.code)
             airportHash[a.code] = a
     airportsTxt.close()
     print("There were {0} Airports with IATA code".format(cont))
@@ -67,31 +70,53 @@ def readRoutes(fd):
                 raise Exception('not an IATA code')
             IATAori = temp[2]
             IATAdes = temp[4]
-            airportHash[IATAori].outweight += 1
         except Exception as inst:
-            pass
+            print("key ex")
+            continue
         else:
             cont += 1
-            edgeHash[(IATAori, IATAdes)] = 1
+            try:
+                if IATAori in airportList and IATAdes in airportList:
+                    edgeHash[IATAori, IATAdes] += 1
+                    airportHash[IATAdes].routes.append(IATAori)
+                    airportHash[IATAori].outweight += 1
+            except KeyError as e:
+                edgeHash[IATAori, IATAdes] = 1
     routesTxt.close()
     print("There were {0} Routes with IATA code".format(cont))
 
 
 def computePageRanks():
     n = len(airportList)
-    P = [1/n] * n
+    P = np.full(n, 1/n)
     L = 0.85
-    while ():
-        Q = [0] * n
+    diff = 1
+    iterations = 0
+    while diff > 0.0001:
+        Q = np.zeros(n)
         for i in airportList:
-            for j in edgeHash:
-                sum += P[j] * edgeHash(j, i) / OutAir(j)
-                Q[i] = L * sum + (1-L)/n
+            sum = 0
+            print("routes of", i, ":", len(airportHash[i].routes))
+            for ori in airportHash[i].routes:
+                try:
+                    sum += P[airportHash[ori].pageIndex] * edgeHash[ori, i] / airportHash[ori].outweight
+                except KeyError as e:
+                    print("excepcio")
+                    continue
+            Q[airportHash[i].pageIndex] = L * sum + (1 - L) / n
+        diff = np.mean(np.absolute(P - Q))
+        print("Q:", Q)
+        print("P:", P)
+        print("Difference:", diff)
         P = Q
+        np.set_printoptions(precision=16)
         print("Pagerank :", P)
-        
+        iterations += 1
+    return iterations
+
 #def outputPageRanks():
     #write your code
+
 
 def main(argv=None):
     readAirports("airports.txt")
