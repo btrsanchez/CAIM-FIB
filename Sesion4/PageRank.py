@@ -34,6 +34,7 @@ edgeHash = dict() # hash of edge to ease the match
 airportList = [] # list of Airport
 airportHash = dict() # hash key IATA code -> Airport
 OutAir = []  # list of airport outs
+PageRank = []
 
 
 def readAirports(fd):
@@ -91,12 +92,14 @@ def computePageRanks():
     P = np.full(n, 1/n)
     L = 0.85
     diff = 1
+    diff2 = 100
     iterations = 0
-    while diff > 0.0001:
+    while abs(diff - diff2) > 0.000001:
         Q = np.zeros(n)
+        diff2 = diff
         for i in airportList:
             sum = 0
-            print("routes of", i, ":", len(airportHash[i].routes))
+            #print("routes of", i, ":", len(airportHash[i].routes))
             for ori in airportHash[i].routes:
                 try:
                     sum += P[airportHash[ori].pageIndex] * edgeHash[ori, i] / airportHash[ori].outweight
@@ -105,17 +108,26 @@ def computePageRanks():
                     continue
             Q[airportHash[i].pageIndex] = L * sum + (1 - L) / n
         diff = np.mean(np.absolute(P - Q))
+        Q = np.interp(Q, (Q.min(), Q.max()), (0, +1))
+        #Q = Q / np.linalg.norm(Q)
         print("Q:", Q)
-        print("P:", P)
-        print("Difference:", diff)
+        #print("P:", P)
+        #print("Difference:", diff)
+        print("suma:", np.sum(Q))
         P = Q
-        np.set_printoptions(precision=16)
-        print("Pagerank :", P)
+        #print("Pagerank :", P)
         iterations += 1
+    global PageRank
+    PageRank = P
     return iterations
 
-#def outputPageRanks():
-    #write your code
+
+def outputPageRanks():
+    print(len(PageRank))
+    for a in airportList:
+        print("Airport", airportHash[a].name)
+        print("has PageRank: ", PageRank[airportHash[a].pageIndex])
+    print("suma:", np.sum(PageRank))
 
 
 def main(argv=None):
@@ -124,7 +136,7 @@ def main(argv=None):
     time1 = time.time()
     iterations = computePageRanks()
     time2 = time.time()
-    #outputPageRanks()
+    outputPageRanks()
     print("#Iterations:", iterations)
     print("Time of computePageRanks():", time2-time1)
 
