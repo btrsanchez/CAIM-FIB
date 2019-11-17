@@ -37,6 +37,13 @@ OutAir = []  # list of airport outs
 PageRank = []
 
 
+def normalize(v):
+    norm = np.linalg.norm(v)
+    if norm == 0:
+       return v
+    return v / norm
+
+
 def readAirports(fd):
     print("Reading Airport file from {0}".format(fd))
     airportsTxt = open(fd, "r", encoding="utf8")
@@ -83,39 +90,44 @@ def readRoutes(fd):
                     airportHash[IATAori].outweight += 1
             except KeyError as e:
                 edgeHash[IATAori, IATAdes] = 1
+                airportHash[IATAdes].routes.append(IATAori)
+                airportHash[IATAori].outweight += 1
+
     routesTxt.close()
     print("There were {0} Routes with IATA code".format(cont))
 
 
 def computePageRanks():
     n = len(airportList)
+    print("n:",n)
     P = np.full(n, 1/n)
-    L = 0.85
+    L = 0.8
     diff = 1
     diff2 = 100
     iterations = 0
-    while abs(diff - diff2) > 0.000001:
+    while abs(diff - diff2) > 0.001:
         Q = np.zeros(n)
         diff2 = diff
         for i in airportList:
+            print("airport i:", i)
             sum = 0
-            #print("routes of", i, ":", len(airportHash[i].routes))
+            airportHash[i].routes = list(dict.fromkeys(airportHash[i].routes))
             for ori in airportHash[i].routes:
                 try:
+                    print("airport in:", ori)
+                    print("P:", P[airportHash[ori].pageIndex])
+                    print("weight k:", edgeHash[ori, i])
+                    print("outweight:", airportHash[ori].outweight)
                     sum += P[airportHash[ori].pageIndex] * edgeHash[ori, i] / airportHash[ori].outweight
                 except KeyError as e:
                     print("excepcio")
                     continue
+            #Q = normalize(Q)
             Q[airportHash[i].pageIndex] = L * sum + (1 - L) / n
         diff = np.mean(np.absolute(P - Q))
-        Q = np.interp(Q, (Q.min(), Q.max()), (0, +1))
-        #Q = Q / np.linalg.norm(Q)
         print("Q:", Q)
-        #print("P:", P)
-        #print("Difference:", diff)
-        print("suma:", np.sum(Q))
+        print("sum: ", np.sum(Q))
         P = Q
-        #print("Pagerank :", P)
         iterations += 1
     global PageRank
     PageRank = P
@@ -127,7 +139,7 @@ def outputPageRanks():
     for a in airportList:
         print("Airport", airportHash[a].name)
         print("has PageRank: ", PageRank[airportHash[a].pageIndex])
-    print("suma:", np.sum(PageRank))
+    #print("suma:", np.sum(PageRank))
 
 
 def main(argv=None):

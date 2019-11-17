@@ -1,0 +1,4 @@
+1212,"Alicante","Alicante","Spain","ALC","LEAL",38.282169,-0.558156,142,1,"E"
+1218,"Barcelona","Barcelona","Spain","BCN","LEBL",41.297078,2.078464,12,1,"E"
+1225,"Ibiza","Ibiza","Spain","IBZ","LEIB",38.872858,1.373117,20,1,"E"
+
