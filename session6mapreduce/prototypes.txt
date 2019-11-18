@@ -1,0 +1,2 @@
+CLASS0:also+1.0 anyone+1.0 been+1.0 being+1.0 d+1.0 does+1.0 don+1.0 even+1.0 its+1.0 more+1.0 than+1.0 those+1.0 used+1.0 
+CLASS1:available+1.0 bit+1.0 find+1.0 take+1.0 want+1.0 your+1.0 
