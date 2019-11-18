@@ -16,7 +16,7 @@ MRKmeansDef
 :Created on: 17/07/2017 7:42 
 
 """
-
+import re
 from mrjob.job import MRJob
 from mrjob.step import MRStep
 
@@ -25,6 +25,30 @@ __author__ = 'bejar'
 
 class MRKmeansStep(MRJob):
     prototypes = {}
+    vocabulary = []
+    
+    def scalar_product(self, doc1, doc2):
+        
+        total = 0
+        
+        for word in vocabulary:
+            
+            v1 = word in doc1
+            v2 = word in doc2
+            
+            total += v1*v2
+            
+        return total
+    
+    
+    def square_norm(self, doc):
+        
+        total = 0
+        for (word, value) in doc:
+            total += value*value
+            
+        return total
+            
 
     def jaccard(self, prot, doc):
         """
@@ -35,7 +59,12 @@ class MRKmeansStep(MRJob):
 
         The result should be always a value in the range [0,1]
         """
-        return 1
+        
+        scalar = scalar_product(prot, doc)
+        
+        result = scalar / (square_norm(prot) + square_norm(doc) - scalar)
+        
+        return result
 
     def configure_args(self):
         """
