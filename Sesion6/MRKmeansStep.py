@@ -23,32 +23,27 @@ from mrjob.step import MRStep
 __author__ = 'bejar'
 
 
+def scalar_product(doc1, doc2):
+    total = 0
+
+    for word in vocabulary:
+        v1 = word in doc1
+        v2 = word in doc2
+
+        total += v1 * v2
+
+    return total
+
+
+def square_norm(doc):
+    total = 0
+    for (word, value) in doc:
+        total += value * value
+
+    return total
+
 class MRKmeansStep(MRJob):
     prototypes = {}
-    vocabulary = []
-    
-    def scalar_product(self, doc1, doc2):
-        
-        total = 0
-        
-        for word in vocabulary:
-            
-            v1 = word in doc1
-            v2 = word in doc2
-            
-            total += v1*v2
-            
-        return total
-    
-    
-    def square_norm(self, doc):
-        
-        total = 0
-        for (word, value) in doc:
-            total += value*value
-            
-        return total
-            
 
     def jaccard(self, prot, doc):
         """
@@ -104,12 +99,17 @@ class MRKmeansStep(MRJob):
         doc, words = line.split(':')
         lwords = words.split()
 
-        #
-        # Compute map here
-        #
+        mindist = -1
+        assigned = 'None'
+
+        for key in self.prototypes:
+            dist = self.jaccard(self.prototypes[key], lwords)
+            if mindist == -1 or dist < mindist:
+                mindist = dist
+                assigned = key
 
         # Return pair key, value
-        yield None, None
+        yield (assigned, doc)
 
     def aggregate_prototype(self, key, values):
         """

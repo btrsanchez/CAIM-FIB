@@ -39,15 +39,6 @@ if __name__ == '__main__':
     # Copies the initial prototypes
     cwd = os.getcwd()
     shutil.copy(cwd + '/' + args.prot, cwd + '/prototypes0.txt')
-    
-    documents = []
-    with open(args.docs, 'rU') as f:
-        for line in f:
-            
-            line = re.sub('^.*?: ', '', line).replace("\n", "").split(" ")
-            dict_line = { i : 1 for i in line }
-            
-            documents.append(dict_line)
 
     nomove = False  # Stores if there has been changes in the current iteration
     for i in range(args.iter):
@@ -61,9 +52,7 @@ if __name__ == '__main__':
                                      '--file', cwd + '/prototypes%d.txt' % i,
                                      '--prot', cwd + '/prototypes%d.txt' % i,
                                      '--num-cores', str(args.cores)])
-        
-        mr_job1.documents = documents
-        
+
         print(mr_job1.prototypes)
 
         # Runs the script
@@ -72,19 +61,20 @@ if __name__ == '__main__':
             new_assign = {}
             new_proto = {}
             # Process the results of the script iterating the (key,value) pairs
-            for key, value in mr_job1.parse_output(runner1.cat_output()):
-                # You should store things here probably in a datastructure
+            #for key, value in mr_job1.parse_output(runner1.cat_output()):
 
-            # If your scripts returns the new assignments you could write them in a file here
+        # You should store things here probably in a datastructure
 
-            # You should store the new prototypes here for the next iteration
+        # If your scripts returns the new assignments you could write them in a file here
 
-            # If you have saved the assignments, you can check if they have changed from the previous iteration
+        # You should store the new prototypes here for the next iteration
 
-                #print(f"Time= {(time.time() - tinit)} seconds" % )
+        # If you have saved the assignments, you can check if they have changed from the previous iteration
+
+        # print(f"Time= {(time.time() - tinit)} seconds" % )
 
         if nomove:  # If there is no changes in two consecutive iteration we can stop
             print("Algorithm converged")
             break
 
-    # Now the last prototype file should have the results
+            # Now the last prototype file should have the results
