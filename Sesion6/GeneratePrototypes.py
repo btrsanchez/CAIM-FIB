@@ -36,7 +36,7 @@ if __name__ == '__main__':
         doc, words = line.split(':')
         ldocs.append(words)
 
-   # Generate nclust prototypes with nclust random documents
+    # Generate nclust prototypes with nclust random documents
     doc = choice(range(len(ldocs)), args.nclust)
     f = open('prototypes.txt', 'w')
     for i, d in enumerate(doc):

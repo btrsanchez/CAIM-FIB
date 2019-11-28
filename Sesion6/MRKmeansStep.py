@@ -22,25 +22,9 @@ from mrjob.step import MRStep
 
 __author__ = 'bejar'
 
-
-def scalar_product(doc1, doc2):
-    total = 0
-
-    for word in vocabulary:
-        v1 = word in doc1
-        v2 = word in doc2
-
-        total += v1 * v2
-
-    return total
-
-
-def square_norm(doc):
-    total = 0
-    for (word, value) in doc:
-        total += value * value
-
-    return total
+def intersection(lst1, lst2): 
+    lst3 = [value for value in lst1 if value in lst2]
+    return lst3 
 
 class MRKmeansStep(MRJob):
     prototypes = {}
@@ -54,12 +38,22 @@ class MRKmeansStep(MRJob):
 
         The result should be always a value in the range [0,1]
         """
-        
-        scalar = scalar_product(prot, doc)
-        
-        result = scalar / (square_norm(prot) + square_norm(doc) - scalar)
-        
-        return result
+
+        #inter_size = len([word for word in prot if prot[0] in doc])
+        inter_size = 0
+        i = 0
+        j = 0
+        while(i < len(prot) and j < len(doc)):
+            if prot[i][0] == doc[j]:
+                inter_size += 1
+                i += 1
+                j += 1
+            elif prot[i][0] < doc[j]:
+                i += 1
+            else:
+                j += 1
+                
+        return inter_size / float(len(prot) + len(doc) - inter_size)
 
     def configure_args(self):
         """
@@ -94,22 +88,20 @@ class MRKmeansStep(MRJob):
 
         You can add also more elements to the value element, for example the document_id
         """
-
         # Each line is a string docid:wor1 word2 ... wordn
         doc, words = line.split(':')
         lwords = words.split()
-
-        mindist = -1
-        assigned = 'None'
-
+        
+        # Compute map here
+        min_dist = -1
+        assigned = 'none'
         for key in self.prototypes:
             dist = self.jaccard(self.prototypes[key], lwords)
-            if mindist == -1 or dist < mindist:
-                mindist = dist
+            if min_dist == -1 or dist < min_dist:
+                min_dist = dist
                 assigned = key
-
-        # Return pair key, value
-        yield (assigned, doc)
+            
+        yield assigned, (doc, lwords)
 
     def aggregate_prototype(self, key, values):
         """
@@ -129,7 +121,25 @@ class MRKmeansStep(MRJob):
         :return:
         """
 
-        yield None, None
+        next_prototype = {}
+        next_prototype_docs = []
+        docs_in_cluster = 0
+
+        for doc in values:
+            docs_in_cluster += 1
+            next_prototype_docs.append(doc[0])
+            for word in doc[1]:
+                if word in next_prototype:
+                    next_prototype[word] += 1
+                else:
+                    next_prototype[word] = 1
+        
+        result_prototype = []
+        for word in next_prototype:
+            result_prototype.append((word, next_prototype[word]/float(docs_in_cluster)))
+    
+        yield key, (sorted(next_prototype_docs), sorted(result_prototype, key=lambda x: x[0]))
+
 
     def steps(self):
         return [MRStep(mapper_init=self.load_data, mapper=self.assign_prototype,
