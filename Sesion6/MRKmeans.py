@@ -66,9 +66,7 @@ if __name__ == '__main__':
 
             # Process the results of the script iterating the (key,value) pairs
             for (key, value) in mr_job1.parse_output(runner1.cat_output()):
-                print(key)
-                new_assign[key] = value[0]
-                new_proto[key] = value[1]
+                new_assign[key], new_proto[key] = value
                 
             print(mr_job1.prototypes)
 

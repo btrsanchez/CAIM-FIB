@@ -22,9 +22,6 @@ from mrjob.step import MRStep
 
 __author__ = 'bejar'
 
-def intersection(lst1, lst2): 
-    lst3 = [value for value in lst1 if value in lst2]
-    return lst3 
 
 class MRKmeansStep(MRJob):
     prototypes = {}
@@ -39,7 +36,6 @@ class MRKmeansStep(MRJob):
         The result should be always a value in the range [0,1]
         """
 
-        #inter_size = len([word for word in prot if prot[0] in doc])
         inter_size = 0
         i = 0
         j = 0
@@ -121,24 +117,23 @@ class MRKmeansStep(MRJob):
         :return:
         """
 
-        next_prototype = {}
-        next_prototype_docs = []
-        docs_in_cluster = 0
+        cluster = []
+        new_prototype = {}
 
-        for doc in values:
-            docs_in_cluster += 1
-            next_prototype_docs.append(doc[0])
-            for word in doc[1]:
-                if word in next_prototype:
-                    next_prototype[word] += 1
+        for (doc, words) in values:
+            cluster.append(doc)
+            for word in words:
+                if word in new_prototype:
+                    new_prototype[word] += 1
                 else:
-                    next_prototype[word] = 1
+                    new_prototype[word] = 1
         
-        result_prototype = []
-        for word in next_prototype:
-            result_prototype.append((word, next_prototype[word]/float(docs_in_cluster)))
+        result = []
+        for word in new_prototype:
+            value = new_prototype[word]/float(len(cluster))
+            result.append((word, value))
     
-        yield key, (sorted(next_prototype_docs), sorted(result_prototype, key=lambda x: x[0]))
+        yield key, (sorted(cluster), sorted(result, key=lambda x: x[0]))
 
 
     def steps(self):
