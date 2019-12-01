@@ -22,7 +22,6 @@ import shutil
 import argparse
 import os
 import time
-from mrjob.util import to_lines
 
 __author__ = 'bejar'
 
@@ -32,7 +31,9 @@ if __name__ == '__main__':
     parser.add_argument('--prot', default='prototypes.txt', help='Initial prototpes file')
     parser.add_argument('--docs', default='documents.txt', help='Documents data')
     parser.add_argument('--iter', default=5, type=int, help='Number of iterations')
-    parser.add_argument('--ncores', default=2, type=int, help='Number of parallel processes to use')
+    parser.add_argument('--nmaps', default=2, type=int, help='Number of parallel map processes to use')
+    parser.add_argument('--nreduces', default=2, type=int, help='Number of parallel reduce processes to use')
+
 
     args = parser.parse_args()
     assign = {}
@@ -57,7 +58,8 @@ if __name__ == '__main__':
         mr_job1 = MRKmeansStep(args=['-r', 'local', args.docs,
                                      '--file', cwd + '/res/prototypes%d.txt' % i,
                                      '--prot', cwd + '/res/prototypes%d.txt' % i,
-                                     '--num-cores', str(args.ncores)])
+                                     '--jobconf', 'mapreduce.job.maps=%d' % args.nmaps,
+                                     '--jobconf', 'mapreduce.job.reduces=%d' % args.nreduces])
 
         # Runs the script
         with mr_job1.make_runner() as runner1:
