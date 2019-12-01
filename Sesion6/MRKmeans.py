@@ -44,6 +44,8 @@ if __name__ == '__main__':
     cwd = os.getcwd()
     shutil.copy(cwd + '/' + args.prot, cwd + '/res/prototypes0.txt')
 
+    total_time = time.time()
+
     nomove = False
     for i in range(args.iter):
         
@@ -107,5 +109,5 @@ if __name__ == '__main__':
         if nomove:
             print("Algorithm converged")
             break
-
-            # Now the last prototype file should have the results
+        
+    print("Total time= %f seconds" % (time.time() - total_time))
