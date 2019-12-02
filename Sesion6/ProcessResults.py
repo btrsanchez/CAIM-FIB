@@ -26,7 +26,7 @@ __author__ = 'bejar'
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--prot', default='prototypes-final.txt', help='prototype file')
+    parser.add_argument('--prot', default='prototypes-result.txt', help='prototype file')
     parser.add_argument('--natt', default=5, type=int, help='Number of attributes to show')
     args = parser.parse_args()
 

@@ -1,10 +1,10 @@
-CLASS0:atom+1.0 chain+1.0 charg+1.0 chemic+1.0 content+1.0 crucial+1.0 crystal+1.0 devic+1.0 distort+1.0 doubl+1.0 drive+1.0 exchang+1.0 fe+1.0 freedom+1.0 growth+1.0 highlight+1.0 isotrop+1.0 lattic+1.0 morpholog+1.0 plane+1.0 regard+1.0 speci+1.0 split+1.0 trend+1.0 tune+1.0 water+1.0 
-CLASS1:absorpt+1.0 angl+1.0 believ+1.0 chosen+1.0 compat+1.0 conclus+1.0 flexibl+1.0 forward+1.0 gaussian+1.0 invers+1.0 last+1.0 might+1.0 now+1.0 orient+1.0 plane+1.0 protocol+1.0 quit+1.0 record+1.0 trajectori+1.0 trivial+1.0 true+1.0 until+1.0 
-CLASS2:assembl+1.0 assess+1.0 automat+1.0 basi+1.0 black+1.0 box+1.0 coeffici+1.0 concern+1.0 convolut+1.0 decomposit+1.0 entir+1.0 fluid+1.0 gradient+1.0 hybrid+1.0 iter+1.0 nonlinear+1.0 onto+1.0 orthogon+1.0 proper+1.0 quantit+1.0 remark+1.0 seri+1.0 stochast+1.0 subject+1.0 
-CLASS3:benchmark+1.0 carri+1.0 cloud+1.0 date+1.0 execut+1.0 guarante+1.0 leverag+1.0 outperform+1.0 receiv+1.0 resourc+1.0 rigor+1.0 servic+1.0 shift+1.0 side+1.0 storag+1.0 technolog+1.0 trace+1.0 unit+1.0 
-CLASS4:align+1.0 benchmark+1.0 biolog+1.0 complement+1.0 difficult+1.0 feedback+1.0 matric+1.0 propag+1.0 reason+1.0 relax+1.0 share+1.0 sign+1.0 surpris+1.0 symmetr+1.0 transport+1.0 variant+1.0 
-CLASS5:advanc+1.0 adversari+1.0 databas+1.0 decod+1.0 difficulti+1.0 encod+1.0 face+1.0 forward+1.0 ident+1.0 impos+1.0 joint+1.0 pose+1.0 qualit+1.0 quantit+1.0 recognit+1.0 releas+1.0 remark+1.0 semi+1.0 simplifi+1.0 stage+1.0 supervis+1.0 threshold+1.0 
-CLASS6:angular+1.0 behaviour+1.0 choos+1.0 competit+1.0 crystal+1.0 dens+1.0 easili+1.0 ensembl+1.0 expand+1.0 extern+1.0 fluid+1.0 heat+1.0 intens+1.0 inter+1.0 lattic+1.0 planck+1.0 proport+1.0 rare+1.0 reduct+1.0 situat+1.0 stage+1.0 stochast+1.0 trend+1.0 unifi+1.0 
-CLASS7:abstract+1.0 act+1.0 actual+1.0 arbitrari+1.0 articl+1.0 break+1.0 collaps+1.0 consider+1.0 convex+1.0 descript+1.0 fluctuat+1.0 gain+1.0 geometri+1.0 great+1.0 insight+1.0 lack+1.0 notion+1.0 outcom+1.0 proof+1.0 realiz+1.0 rule+1.0 situat+1.0 suitabl+1.0 understood+1.0 uniform+1.0 upon+1.0 visual+1.0 
-CLASS8:assess+1.0 cool+1.0 etc+1.0 intern+1.0 methodolog+1.0 modifi+1.0 monitor+1.0 necessari+1.0 plan+1.0 public+1.0 softwar+1.0 technic+1.0 technolog+1.0 
-CLASS9:advanc+1.0 anisotropi+1.0 atom+1.0 away+1.0 below+1.0 bulk+1.0 center+1.0 infinit+1.0 insight+1.0 invers+1.0 move+1.0 neighbor+1.0 pure+1.0 split+1.0 tight+1.0 treatment+1.0 trend+1.0 vanish+1.0 
+CLASS0:up+1.0 
+CLASS1:how+1.0 more+1.0 only+1.0 them+1.0 then+1.0 
+CLASS2:been+1.0 how+1.0 now+1.0 only+1.0 then+1.0 think+1.0 time+1.0 up+1.0 were+1.0 when+1.0 
+CLASS3:also+1.0 been+1.0 had+1.0 now+1.0 only+1.0 other+1.0 than+1.0 them+1.0 these+1.0 up+1.0 use+1.0 we+1.0 well+1.0 were+1.0 
+CLASS4:also+1.0 been+1.0 could+1.0 get+1.0 had+1.0 other+1.0 people+1.0 than+1.0 them+1.0 these+1.0 up+1.0 well+1.0 
+CLASS5:does+1.0 even+1.0 good+1.0 he+1.0 more+1.0 only+1.0 than+1.0 think+1.0 up+1.0 
+CLASS6:am+1.0 how+1.0 time+1.0 
+CLASS7:am+1.0 even+1.0 get+1.0 had+1.0 he+1.0 now+1.0 only+1.0 these+1.0 use+1.0 were+1.0 
+CLASS8:d+1.0 good+1.0 more+1.0 
+CLASS9:also+1.0 apr+1.0 c+1.0 does+1.0 even+1.0 good+1.0 other+1.0 time+1.0 
